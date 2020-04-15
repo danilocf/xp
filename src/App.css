@@ -1,38 +1,106 @@
-.App {
-  text-align: center;
+.App .logo {
+  margin: 34px 18px 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App .container {
+  max-width: 1200px;
+  margin: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App .row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App .col.fill {
+  width: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App .search {
+  background: none;
+  width: 100%;
+  padding: 12px 8px;
+  border: none;
+  border-bottom: 2px solid #ffffff50;
+  margin-bottom: 70px;
+}
+
+.App .search:focus {
+  outline: none;
+}
+
+.App .albuns {
+  margin-bottom: 70px;
+}
+
+.App .albuns__text {
+  margin: 0 8px 26px;
+}
+
+.App .albuns__container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.App .album {
+  max-width: 170px;
+  margin: 20px;
+}
+
+.App .album.large {
+  max-width: 300px;
+}
+
+.App .album__img {
+  width: 170px;
+  height: 170px;
+  background-color: var(--color-light);
+}
+
+.App .album.large .album__img {
+  width: 300px;
+  height: 300px;
+}
+
+.App .album__title {
+  margin: 8px auto 6px;
+  max-width: 90%;
+}
+
+.App .album.large .album__title {
+  margin: 16px auto;
+  max-width: 70%;
+}
+
+.App .album__artist {
+  margin: 0 auto 6px;
+  max-width: 90%;
+}
+
+.App .album.large .album__artist {
+  max-width: 70%;
+}
+
+.App .list {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.App .list__item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.App .list__number {
+  width: 40px;
+}
+
+.App .list__title {
+  flex-grow: 1;
+}
+
+.App .list__duration {
+  flex-grow: 2;
 }

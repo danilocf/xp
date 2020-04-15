@@ -2,12 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./normalize.css";
 import "./index.css";
-import Spotify from "./components/Spotify";
+import App from "./App";
+import Home from "./views/Home";
+import Album from "./views/Album";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Spotify />
+    <App>
+      <Home />
+      <hr />
+      <Album />
+    </App>
   </React.StrictMode>,
   document.getElementById("root")
 );

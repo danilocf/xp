@@ -46,6 +46,13 @@
   color: var(--color-grey);
 }
 
+.style-regular-18-left-grey {
+  font-weight: 400;
+  font-size: 18px;
+  text-align: left;
+  color: var(--color-grey);
+}
+
 .style-regular-18-left-light {
   font-weight: 400;
   font-size: 18px;
