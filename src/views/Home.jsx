@@ -127,12 +127,15 @@ class Home extends Component {
             </div>
           </div>
         )}
-        <div
-          className="seemore style-bold-36-center-grey"
-          onClick={this.apiSearch}
-        >
-          Ver mais
-        </div>
+        {!this.state.loading &&
+          (!!this.state.albums.length || !!this.state.tracks.length) && (
+            <div
+              className="seemore style-bold-36-center-grey"
+              onClick={this.apiSearch}
+            >
+              Ver mais
+            </div>
+          )}
       </React.Fragment>
     );
   }
