@@ -38,7 +38,7 @@ class Album extends Component {
         )}
         <div className="row">
           <div className="col">
-            <div className="album large">
+            <div className="album large animated zoomIn faster">
               {this.state.album.images &&
               this.state.album.images[0] &&
               this.state.album.images[0].url &&
@@ -66,7 +66,7 @@ class Album extends Component {
               {this.state.album.tracks &&
                 this.state.album.tracks.items.map((item, index) => (
                   <div
-                    className="list__item"
+                    className="list__item animated fadeIn slow"
                     key={index}
                     onClick={() => this.props.setTrack(item)}
                   >

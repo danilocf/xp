@@ -4,7 +4,7 @@ import "./Player.css";
 class Player extends Component {
   render() {
     return (
-      <div className="Player">
+      <div className="Player animated bounceInDown slow">
         <p className="style-regular-18-left-grey">
           Preview:{" "}
           <b>

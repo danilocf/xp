@@ -16,7 +16,10 @@ class Home extends Component {
   render() {
     return (
       <React.Fragment>
-        <label htmlFor="search" className="style-regular-16-left-light">
+        <label
+          htmlFor="search"
+          className="style-regular-16-left-light animated fadeIn delay-1s"
+        >
           Busque por artistas, álbuns ou músicas
         </label>
         <input
@@ -26,7 +29,7 @@ class Home extends Component {
           name="search"
           id="search"
           placeholder="Comece a escrever..."
-          className="search style-bold-48-left-grey"
+          className="search style-bold-48-left-grey animated fadeIn slow"
           maxLength="50"
         />
         {this.state.search.length ? (
@@ -42,7 +45,7 @@ class Home extends Component {
                   this.state.albums.map((item, index) => (
                     <Link
                       to={`/album/${item.id}`}
-                      className="album"
+                      className="album animated zoomIn fast"
                       key={index}
                     >
                       <img
@@ -75,7 +78,7 @@ class Home extends Component {
                   <p className="style-regular-18-left-grey">Carregando...</p>
                 ) : this.state.tracks.length ? (
                   this.state.tracks.map((item, index) => (
-                    <div className="album" key={index}>
+                    <div className="album animated zoomIn fast" key={index}>
                       <img
                         src={item.album.images[1].url}
                         alt=""
@@ -98,7 +101,7 @@ class Home extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <div className="albums">
+          <div className="albums animated fadeIn delay-2s">
             <p className="albums__text style-regular-24-left-light">
               Álbuns buscados recentemente
             </p>
@@ -114,7 +117,9 @@ class Home extends Component {
                   return (
                     <Link
                       to={`/album/${item.id}`}
-                      className={item.id ? "album" : "album hidden"}
+                      className={
+                        item.id ? "album animated zoomIn fast" : "album hidden"
+                      }
                       key={index}
                     >
                       <img
