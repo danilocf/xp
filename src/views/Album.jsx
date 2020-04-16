@@ -65,7 +65,11 @@ class Album extends Component {
             <div className="list">
               {this.state.album.tracks &&
                 this.state.album.tracks.items.map((item, index) => (
-                  <div className="list__item" key={index}>
+                  <div
+                    className="list__item"
+                    key={index}
+                    onClick={() => this.props.setTrack(item)}
+                  >
                     <div className="list__number style-regular-18-left-grey">
                       {index + 1}.
                     </div>
@@ -141,7 +145,9 @@ class Album extends Component {
         items: data.tracks.items.map((i) => {
           return {
             name: i.name,
+            artists: i.artists,
             duration_ms: i.duration_ms,
+            preview_url: i.preview_url,
           };
         }),
       },

@@ -166,7 +166,10 @@ class Home extends Component {
       });
       this.setState({
         lastSearch: this.state.search,
-        offset: this.state.offset + 5,
+        offset:
+          this.state.search === this.state.lastSearch
+            ? this.state.offset + 5
+            : 0,
         albums:
           this.state.search === this.state.lastSearch
             ? [...this.state.albums, ...data.albums.items]

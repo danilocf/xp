@@ -1,0 +1,10 @@
+.App .Player {
+  margin: 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.App .Player p {
+  margin-right: 20px;
+}

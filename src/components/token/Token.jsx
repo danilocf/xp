@@ -1,11 +1,17 @@
 import _ from "lodash";
 import React, { Component } from "react";
+// FIXME:
+// import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
+// import * as Actions from "../../store/actions";
 import "./Token.css";
 
 class Token extends Component {
   state = {
     token: "",
   };
+  // FIXME:
+  // render({ lala, toggleLala }) {
   render() {
     return (
       <div className="Token">
@@ -27,6 +33,8 @@ class Token extends Component {
             className="search style-bold-48-left-grey"
             maxLength="200"
           />
+          {/* FIXME: */}
+          {/* <button onClick={() => toggleLala(lala[0])}>test</button> */}
         </div>
       </div>
     );
@@ -41,4 +49,9 @@ class Token extends Component {
   );
 }
 
+// FIXME:
+// const mapStateToProps = (state) => ({ lala: state.lala });
+// const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch);
+// export default connect(mapStateToProps, mapDispatchToProps)(Token);
+// export default connect()(Token);
 export default Token;
