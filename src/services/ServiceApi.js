@@ -31,7 +31,7 @@ const makeRequest = ({
 };
 
 export default {
-  search({ token, query, limit = 10, offset = 0 }) {
+  search({ token, query, limit = 5, offset = 0 }) {
     return makeRequest({
       token,
       url: `/search?q=${query}&type=album,track&limit=${limit}&offset=${offset}`,

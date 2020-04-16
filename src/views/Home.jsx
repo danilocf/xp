@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { Component } from "react";
 import albuns from "../mocks/albuns.json";
 import musics from "../mocks/musics.json";
@@ -5,7 +6,7 @@ import ServiceApi from "../services/ServiceApi";
 
 class Home extends Component {
   state = {
-    search: "arctic monkeys",
+    search: "",
     searchs: albuns,
     albuns,
     musics,
@@ -18,7 +19,7 @@ class Home extends Component {
         </label>
         <input
           value={this.state.search}
-          onChange={this.handleOnChange}
+          onChange={this.onChange}
           type="text"
           name="search"
           id="search"
@@ -26,7 +27,6 @@ class Home extends Component {
           className="search style-bold-48-left-grey"
           maxLength="200"
         />
-        <button onClick={this.handleOnClick}>Salvar</button>
         {this.state.search.length ? (
           <React.Fragment>
             <div className="albuns">
@@ -34,21 +34,27 @@ class Home extends Component {
                 {`Álbuns encontrados para "${this.state.search}"`}
               </p>
               <div className="albuns__container">
-                {this.state.albuns.map((item, index) => (
-                  <div className="album" key={index}>
-                    <img
-                      src="https://picsum.photos/170"
-                      alt=""
-                      className="album__img"
-                    />
-                    <p className="album__title style-regular-14-center-light">
-                      {item.title}
-                    </p>
-                    <p className="album__artist style-regular-14-center-grey">
-                      {item.artist}
-                    </p>
-                  </div>
-                ))}
+                {this.state.albuns.length ? (
+                  this.state.albuns.map((item, index) => (
+                    <div className="album" key={index}>
+                      <img
+                        src={item.images[1].url}
+                        alt=""
+                        className="album__img"
+                      />
+                      <p className="album__title style-regular-14-center-light">
+                        {item.name}
+                      </p>
+                      <p className="album__artist style-regular-14-center-grey">
+                        {item.artists.map((i) => i.name).join(", ")}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="style-regular-18-left-grey">
+                    Nenhum álbum encontrado para "{this.state.search}"
+                  </p>
+                )}
               </div>
             </div>
 
@@ -57,21 +63,27 @@ class Home extends Component {
                 {`Músicas encontradas para "${this.state.search}"`}
               </p>
               <div className="albuns__container">
-                {this.state.musics.map((item, index) => (
-                  <div className="album" key={index}>
-                    <img
-                      src="https://picsum.photos/170"
-                      alt=""
-                      className="album__img"
-                    />
-                    <p className="album__title style-regular-14-center-light">
-                      {item.title}
-                    </p>
-                    <p className="album__artist style-regular-14-center-grey">
-                      {item.artist}
-                    </p>
-                  </div>
-                ))}
+                {this.state.musics.length ? (
+                  this.state.musics.map((item, index) => (
+                    <div className="album" key={index}>
+                      <img
+                        src={item.album.images[1].url}
+                        alt=""
+                        className="album__img"
+                      />
+                      <p className="album__title style-regular-14-center-light">
+                        {item.name}
+                      </p>
+                      <p className="album__artist style-regular-14-center-grey">
+                        {item.artists.map((i) => i.name).join(", ")}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="style-regular-18-left-grey">
+                    Nenhuma música encontrado para "{this.state.search}"
+                  </p>
+                )}
               </div>
             </div>
           </React.Fragment>
@@ -81,45 +93,55 @@ class Home extends Component {
               Álbuns buscados recentemente
             </p>
             <div className="albuns__container">
-              {this.state.searchs.map((item, index) => (
-                <div className="album" key={index}>
-                  <img
-                    src="https://picsum.photos/170"
-                    alt=""
-                    className="album__img"
-                  />
-                  <p className="album__title style-regular-14-center-light">
-                    {item.title}
-                  </p>
-                  <p className="album__artist style-regular-14-center-grey">
-                    {item.artist}
-                  </p>
-                </div>
-              ))}
+              {this.state.searchs.length ? (
+                this.state.searchs.map((item, index) => (
+                  <div className="album" key={index}>
+                    <img
+                      src="https://picsum.photos/170"
+                      alt=""
+                      className="album__img"
+                    />
+                    <p className="album__title style-regular-14-center-light">
+                      {item.title}
+                    </p>
+                    <p className="album__artist style-regular-14-center-grey">
+                      {item.artist}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="style-regular-18-left-grey">
+                  Nenhum álbum recente encontrado...
+                </p>
+              )}
             </div>
           </div>
         )}
       </React.Fragment>
     );
   }
-  handleOnChange = (e) => {
+  onChange = (e) => {
     this.setState({ search: e.target.value });
+    this.debounceApiSearch();
   };
-  // TEMP
-  handleOnClick = async () => {
-    console.log("token", this.props.token);
+  debounceApiSearch = _.debounce(() => this.apiSearch(), 500);
+  apiSearch = async () => {
+    if (!this.state.search) return;
     try {
       const { data } = await ServiceApi.search({
         query: this.state.search,
         token: this.props.token,
       });
-      console.log("data", data);
       this.setState({ albuns: data.albums.items, musics: data.tracks.items });
     } catch (error) {
-      console.log("error", error);
-      if (error.response.status === 401) {
-        this.props.setToken({ token: "", expired: true });
-      }
+      const message = error.response.data.error.message;
+      this.props.setToken({
+        token: "",
+        invalid:
+          message === "Invalid access token" ||
+          "Only valid bearer authentication supported",
+        expired: message === "The access token expired",
+      });
     }
   };
 }

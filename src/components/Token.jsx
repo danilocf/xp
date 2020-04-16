@@ -1,10 +1,10 @@
+import _ from "lodash";
 import React, { Component } from "react";
 import "./Token.css";
 
 class Token extends Component {
   state = {
-    token:
-      "BQAmlrbCrUCrhuRLT8vjtAUpFwpIWXrxaRBB3ggJsD2PVs--rz7-6u6lYsBYCfL0gOZPhISS_q9EUKvV9tEKdiososBtee0DqdsTiq5rsoeJouo-3qNX0AzznxkD942URneHZTz0E5iT1jiIHjEJ3MUh0ifov8Y",
+    token: "",
   };
   render() {
     return (
@@ -13,12 +13,13 @@ class Token extends Component {
           <label htmlFor="token" className="style-regular-16-left-light">
             {this.props.expired
               ? "Seu Token de acesso Spotify expirou, digite novamente"
+              : this.props.invalid
+              ? "Seu Token de acesso Spotify não é válido, digite novamente"
               : "Token de acesso Spotify"}
           </label>
           <input
             value={this.state.token}
-            // TODO: add debounce
-            onChange={this.handleOnChange}
+            onChange={this.onChange}
             type="text"
             name="token"
             id="token"
@@ -26,18 +27,18 @@ class Token extends Component {
             className="search style-bold-48-left-grey"
             maxLength="200"
           />
-          <button onClick={this.handleOnClick}>Salvar</button>
         </div>
       </div>
     );
   }
-  handleOnChange = (e) => {
-    return this.setState({ token: e.target.value });
+  onChange = (e) => {
+    this.setState({ token: e.target.value });
+    this.debounceSetToken();
   };
-  // TEMP
-  handleOnClick = () => {
-    return this.props.setToken({ token: this.state.token });
-  };
+  debounceSetToken = _.debounce(
+    () => this.props.setToken({ token: this.state.token }),
+    500
+  );
 }
 
 export default Token;
