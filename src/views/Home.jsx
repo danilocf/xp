@@ -177,7 +177,10 @@ class Home extends Component {
       const { data } = await ServiceApi.search({
         token: this.props.token,
         query: this.state.search,
-        offset: this.state.offset,
+        offset:
+          this.state.search === this.state.lastSearch
+            ? this.state.offset + 5
+            : 0,
       });
       this.setState({
         lastSearch: this.state.search,
