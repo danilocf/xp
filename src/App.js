@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import "./App.css";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import Token from "./components/token/Token";
+import Home from "./views/Home";
+import Album from "./views/Album";
 import logoSpotify from "./assets/spotify.png";
-import Token from "./components/Token";
+import "./App.css";
 
 class App extends Component {
   state = {
@@ -11,26 +14,47 @@ class App extends Component {
   };
   render() {
     return (
-      <div className="App">
-        {!this.state.token.length && (
-          <Token
-            setToken={this.onSetToken}
-            expired={this.state.tokenExpired}
-            invalid={this.state.tokenInvalid}
-          />
-        )}
-        <img src={logoSpotify} alt="" className="logo" />
-        {this.state.token.length && (
-          <div className="container">
-            {React.Children.map(this.props.children, (child) =>
-              React.cloneElement(child, {
-                token: this.state.token,
-                setToken: this.onSetToken,
-              })
-            )}
-          </div>
-        )}
-      </div>
+      <Router>
+        <div className="App">
+          {!this.state.token.length && (
+            <Token
+              setToken={this.onSetToken}
+              expired={this.state.tokenExpired}
+              invalid={this.state.tokenInvalid}
+            />
+          )}
+          <Link to="/">
+            <img src={logoSpotify} alt="" className="logo" />
+          </Link>
+          {this.state.token.length && (
+            <div className="container">
+              <Switch>
+                <Route
+                  exact
+                  path="/album/:id"
+                  render={(props) => (
+                    <Album
+                      {...props}
+                      token={this.state.token}
+                      setToken={this.onSetToken}
+                    />
+                  )}
+                />
+                <Route
+                  path="/"
+                  render={(props) => (
+                    <Home
+                      {...props}
+                      token={this.state.token}
+                      setToken={this.onSetToken}
+                    />
+                  )}
+                />
+              </Switch>
+            </div>
+          )}
+        </div>
+      </Router>
     );
   }
   onSetToken = ({ token, expired, invalid }) => {

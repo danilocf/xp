@@ -45,6 +45,7 @@
 .App .album {
   max-width: 170px;
   margin: 20px auto;
+  text-decoration: none;
 }
 
 .App .album.large {

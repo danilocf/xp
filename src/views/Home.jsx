@@ -1,11 +1,13 @@
 import _ from "lodash";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import albuns from "../mocks/albuns.json";
 import musics from "../mocks/musics.json";
 import ServiceApi from "../services/ServiceApi";
 
 class Home extends Component {
   state = {
+    loading: true,
     search: "",
     searchs: albuns,
     albuns,
@@ -36,7 +38,11 @@ class Home extends Component {
               <div className="albuns__container">
                 {this.state.albuns.length ? (
                   this.state.albuns.map((item, index) => (
-                    <div className="album" key={index}>
+                    <Link
+                      to={`/album/${item.id}`}
+                      className="album"
+                      key={index}
+                    >
                       <img
                         src={item.images[1].url}
                         alt=""
@@ -48,8 +54,10 @@ class Home extends Component {
                       <p className="album__artist style-regular-14-center-grey">
                         {item.artists.map((i) => i.name).join(", ")}
                       </p>
-                    </div>
+                    </Link>
                   ))
+                ) : this.state.loading ? (
+                  <p className="style-regular-18-left-grey">Carregando...</p>
                 ) : (
                   <p className="style-regular-18-left-grey">
                     Nenhum álbum encontrado para "{this.state.search}"
@@ -79,9 +87,11 @@ class Home extends Component {
                       </p>
                     </div>
                   ))
+                ) : this.state.loading ? (
+                  <p className="style-regular-18-left-grey">Carregando...</p>
                 ) : (
                   <p className="style-regular-18-left-grey">
-                    Nenhuma música encontrado para "{this.state.search}"
+                    Nenhum música encontrada para "{this.state.search}"
                   </p>
                 )}
               </div>
@@ -128,11 +138,15 @@ class Home extends Component {
   apiSearch = async () => {
     if (!this.state.search) return;
     try {
+      this.setState({ loading: true });
       const { data } = await ServiceApi.search({
         token: this.props.token,
         query: this.state.search,
       });
-      this.setState({ albuns: data.albums.items, musics: data.tracks.items });
+      this.setState({
+        albuns: data.albums.items,
+        musics: data.tracks.items,
+      });
     } catch (error) {
       const message = error.response.data.error.message;
       this.props.setToken({
@@ -142,6 +156,10 @@ class Home extends Component {
           "Only valid bearer authentication supported",
         expired: message === "The access token expired",
       });
+    } finally {
+      setTimeout(() => {
+        this.setState({ loading: false });
+      }, 300);
     }
   };
 }

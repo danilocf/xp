@@ -2,14 +2,21 @@ import moment from "moment";
 import React, { Component } from "react";
 import ServiceApi from "../services/ServiceApi";
 
-class Spotify extends Component {
+class Album extends Component {
   state = {
+    loading: true,
+    error: false,
     album: {
-      images: [{ url: "" }],
+      images: [],
       name: "",
       artists: [],
       tracks: {
-        items: [],
+        items: [
+          {
+            name: "Nome da música",
+            duration_ms: 0,
+          },
+        ],
       },
     },
   };
@@ -18,37 +25,55 @@ class Spotify extends Component {
       <React.Fragment>
         {/* TODO: */}
         {/* <a href="#">Voltar</a> */}
+        {this.state.loading && (
+          <p className="style-regular-18-left-grey">Carregando...</p>
+        )}
+        {this.state.error && (
+          <p className="style-regular-18-left-grey">
+            Nenhum álbum encontrado com id "{this.props.match.params.id}"
+          </p>
+        )}
         <div className="row">
           <div className="col">
             <div className="album large">
-              <img
-                src={this.state.album.images[0].url}
-                alt=""
-                className="album__img"
-              />
+              {this.state.album.images &&
+              this.state.album.images[0] &&
+              this.state.album.images[0].url &&
+              this.state.album.images[0].url.length ? (
+                <img
+                  src={this.state.album.images[0].url}
+                  alt=""
+                  className="album__img"
+                />
+              ) : (
+                <img alt="" className="album__img" />
+              )}
               <p className="album__title style-regular-18-center-light">
-                {this.state.album.name}
+                {this.state.album.name || "Nome do álbum"}
               </p>
               <p className="album__artist style-regular-14-center-grey">
-                {this.state.album.artists.map((i) => i.name).join(", ")}
+                {this.state.album.artists && this.state.album.artists.length
+                  ? this.state.album.artists.map((i) => i.name).join(", ")
+                  : "Nome do artista"}
               </p>
             </div>
           </div>
           <div className="col fill">
             <div className="list">
-              {this.state.album.tracks.items.map((item, index) => (
-                <div className="list__item" key={index}>
-                  <div className="list__number style-regular-18-left-grey">
-                    {index + 1}.
+              {this.state.album.tracks &&
+                this.state.album.tracks.items.map((item, index) => (
+                  <div className="list__item" key={index}>
+                    <div className="list__number style-regular-18-left-grey">
+                      {index + 1}.
+                    </div>
+                    <div className="list__title style-regular-18-left-light">
+                      {item.name}
+                    </div>
+                    <div className="list__duration style-regular-18-right-grey">
+                      {moment(item.duration_ms).format("mm:ss")}
+                    </div>
                   </div>
-                  <div className="list__title style-regular-18-left-light">
-                    {item.name}
-                  </div>
-                  <div className="list__duration style-regular-18-right-grey">
-                    {moment(item.duration_ms).format("mm:ss")}
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
@@ -60,23 +85,33 @@ class Spotify extends Component {
   }
   apiAlbum = async () => {
     try {
+      this.setState({ loading: true });
       const { data } = await ServiceApi.album({
         token: this.props.token,
-        // FIXME:
-        id: "78bpIziExqiI9qztvNFlQu",
+        id: this.props.match.params.id,
       });
-      this.setState({ album: data });
+      setTimeout(() => {
+        this.setState({ loading: false, album: data });
+      }, 300);
     } catch (error) {
+      setTimeout(() => {
+        this.setState({ loading: false, error: true });
+      }, 300);
       const message = error.response.data.error.message;
-      this.props.setToken({
-        token: "",
-        invalid:
-          message === "Invalid access token" ||
-          "Only valid bearer authentication supported",
-        expired: message === "The access token expired",
-      });
+      const messages = [
+        "Invalid access token",
+        "Only valid bearer authentication supported",
+        "The access token expired",
+      ];
+      if (messages.includes(message)) {
+        this.props.setToken({
+          token: "",
+          invalid: message === messages[0] || messages[1],
+          expired: message === messages[3],
+        });
+      }
     }
   };
 }
 
-export default Spotify;
+export default Album;
