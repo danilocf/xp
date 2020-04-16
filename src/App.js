@@ -94,6 +94,7 @@ class App extends Component {
     });
   };
   getTrack = () => {
+    // FIXME:
     const track = localStorage.getItem("track");
     if (track) this.setState({ track: JSON.parse(track) });
   };

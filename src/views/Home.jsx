@@ -104,21 +104,33 @@ class Home extends Component {
             </p>
             <div className="albums__container">
               {this.state.searchs.length ? (
-                this.state.searchs.map((item, index) => (
-                  <Link to={`/album/${item.id}`} className="album" key={index}>
-                    <img
-                      src={item.images[1].url}
-                      alt=""
-                      className="album__img"
-                    />
-                    <p className="album__title style-regular-14-center-light">
-                      {item.name}
-                    </p>
-                    <p className="album__artist style-regular-14-center-grey">
-                      {item.artists.map((i) => i.name).join(", ")}
-                    </p>
-                  </Link>
-                ))
+                [1, 2, 3, 4, 5].map((i, index) => {
+                  const item = this.state.searchs[index] || {
+                    id: "",
+                    images: [{}, { url: "" }],
+                    name: "",
+                    artists: [],
+                  };
+                  return (
+                    <Link
+                      to={`/album/${item.id}`}
+                      className={item.id ? "album" : "album hidden"}
+                      key={index}
+                    >
+                      <img
+                        src={item.images[1].url}
+                        alt=""
+                        className="album__img"
+                      />
+                      <p className="album__title style-regular-14-center-light">
+                        {item.name}
+                      </p>
+                      <p className="album__artist style-regular-14-center-grey">
+                        {item.artists.map((i) => i.name).join(", ")}
+                      </p>
+                    </Link>
+                  );
+                })
               ) : (
                 <p className="style-regular-18-left-grey">
                   Nenhum álbum recente encontrado...
@@ -156,7 +168,10 @@ class Home extends Component {
   };
   debounceApiSearch = _.debounce(() => this.apiSearch(), 500);
   apiSearch = async () => {
-    if (!this.state.search) return;
+    if (!this.state.search) {
+      this.reset();
+      return;
+    }
     try {
       this.setState({ loading: true });
       const { data } = await ServiceApi.search({
@@ -180,6 +195,7 @@ class Home extends Component {
             : data.tracks.items,
       });
     } catch (error) {
+      this.reset();
       const message = error.response.data.error.message;
       this.props.setToken({
         token: "",
@@ -193,6 +209,14 @@ class Home extends Component {
         this.setState({ loading: false });
       }, 300);
     }
+  };
+  reset = () => {
+    this.setState({
+      offset: 0,
+      lastSearch: "",
+      albums: [],
+      tracks: [],
+    });
   };
 }
 
