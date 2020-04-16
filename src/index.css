@@ -22,6 +22,13 @@ a {
   color: var(--color-grey);
 }
 
+.style-bold-36-center-grey {
+  font-weight: 700;
+  font-size: 36px;
+  text-align: center;
+  color: var(--color-grey);
+}
+
 .style-regular-24-left-light {
   font-weight: 400;
   font-size: 24px;
