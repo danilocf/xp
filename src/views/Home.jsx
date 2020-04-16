@@ -129,8 +129,8 @@ class Home extends Component {
     if (!this.state.search) return;
     try {
       const { data } = await ServiceApi.search({
-        query: this.state.search,
         token: this.props.token,
+        query: this.state.search,
       });
       this.setState({ albuns: data.albums.items, musics: data.tracks.items });
     } catch (error) {

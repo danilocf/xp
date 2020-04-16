@@ -37,7 +37,7 @@ class Token extends Component {
   };
   debounceSetToken = _.debounce(
     () => this.props.setToken({ token: this.state.token }),
-    500
+    1000
   );
 }
 
