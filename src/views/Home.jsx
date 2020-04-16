@@ -1,17 +1,15 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import albuns from "../mocks/albuns.json";
-import musics from "../mocks/musics.json";
 import ServiceApi from "../services/ServiceApi";
 
 class Home extends Component {
   state = {
     loading: true,
     search: "",
-    searchs: albuns,
-    albuns,
-    musics,
+    searchs: [],
+    albuns: [],
+    musics: [],
   };
   render() {
     return (
@@ -105,19 +103,19 @@ class Home extends Component {
             <div className="albuns__container">
               {this.state.searchs.length ? (
                 this.state.searchs.map((item, index) => (
-                  <div className="album" key={index}>
+                  <Link to={`/album/${item.id}`} className="album" key={index}>
                     <img
-                      src="https://picsum.photos/170"
+                      src={item.images[1].url}
                       alt=""
                       className="album__img"
                     />
                     <p className="album__title style-regular-14-center-light">
-                      {item.title}
+                      {item.name}
                     </p>
                     <p className="album__artist style-regular-14-center-grey">
-                      {item.artist}
+                      {item.artists.map((i) => i.name).join(", ")}
                     </p>
-                  </div>
+                  </Link>
                 ))
               ) : (
                 <p className="style-regular-18-left-grey">
@@ -130,6 +128,17 @@ class Home extends Component {
       </React.Fragment>
     );
   }
+  componentDidMount() {
+    this.getSearchs();
+  }
+  getSearchs = () => {
+    const searchs =
+      localStorage.getItem("searchs") &&
+      JSON.parse(localStorage.getItem("searchs"));
+    if (_.isArray(searchs)) {
+      this.setState({ searchs });
+    }
+  };
   onChange = (e) => {
     this.setState({ search: e.target.value });
     this.debounceApiSearch();

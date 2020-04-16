@@ -1,3 +1,4 @@
+import _ from "lodash";
 import moment from "moment";
 import React, { Component } from "react";
 import ServiceApi from "../services/ServiceApi";
@@ -90,6 +91,7 @@ class Album extends Component {
         token: this.props.token,
         id: this.props.match.params.id,
       });
+      this.saveSearch(data);
       setTimeout(() => {
         this.setState({ loading: false, album: data });
       }, 300);
@@ -106,11 +108,40 @@ class Album extends Component {
       if (messages.includes(message)) {
         this.props.setToken({
           token: "",
-          invalid: message === messages[0] || messages[1],
-          expired: message === messages[3],
+          invalid: message === messages[0] || message === messages[1],
+          expired: message === messages[2],
         });
       }
     }
+  };
+  saveSearch = (data) => {
+    const searchs = localStorage.getItem("searchs")
+      ? JSON.parse(localStorage.getItem("searchs")) || []
+      : [];
+    let newSearch;
+    const newSearchData = {
+      id: data.id,
+      images: data.images,
+      name: data.name,
+      artists: data.artists,
+      tracks: {
+        items: data.tracks.items.map((i) => {
+          return {
+            name: i.name,
+            duration_ms: i.duration_ms,
+          };
+        }),
+      },
+    };
+    if (_.isArray(searchs)) {
+      newSearch = [...searchs];
+      if (!searchs.find((i) => i.id === data.id)) {
+        newSearch = [newSearchData, ...searchs.splice(0, 4)];
+      }
+    } else {
+      newSearch = [newSearchData];
+    }
+    localStorage.setItem("searchs", JSON.stringify(newSearch));
   };
 }
 
