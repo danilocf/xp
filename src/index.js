@@ -11,8 +11,8 @@ ReactDOM.render(
   <React.StrictMode>
     <App>
       <Home />
-      <hr />
-      <Album />
+      {/* <hr />
+      <Album /> */}
     </App>
   </React.StrictMode>,
   document.getElementById("root")

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import albuns from "../mocks/albuns.json";
 import musics from "../mocks/musics.json";
+import ServiceApi from "../services/ServiceApi";
 
 class Home extends Component {
   state = {
-    search: "",
+    search: "arctic monkeys",
     searchs: albuns,
     albuns,
     musics,
@@ -17,14 +18,15 @@ class Home extends Component {
         </label>
         <input
           value={this.state.search}
-          onChange={(e) => this.setState({ search: e.target.value })}
+          onChange={this.handleOnChange}
           type="text"
           name="search"
           id="search"
           placeholder="Comece a escrever..."
           className="search style-bold-48-left-grey"
+          maxLength="200"
         />
-
+        <button onClick={this.handleOnClick}>Salvar</button>
         {this.state.search.length ? (
           <React.Fragment>
             <div className="albuns">
@@ -100,6 +102,26 @@ class Home extends Component {
       </React.Fragment>
     );
   }
+  handleOnChange = (e) => {
+    this.setState({ search: e.target.value });
+  };
+  // TEMP
+  handleOnClick = async () => {
+    console.log("token", this.props.token);
+    try {
+      const { data } = await ServiceApi.search({
+        query: this.state.search,
+        token: this.props.token,
+      });
+      console.log("data", data);
+      this.setState({ albuns: data.albums.items, musics: data.tracks.items });
+    } catch (error) {
+      console.log("error", error);
+      if (error.response.status === 401) {
+        this.props.setToken({ token: "", expired: true });
+      }
+    }
+  };
 }
 
 export default Home;
