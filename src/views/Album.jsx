@@ -5,7 +5,7 @@ import ServiceApi from "../services/ServiceApi";
 
 class Album extends Component {
   state = {
-    loading: true,
+    loading: false,
     error: false,
     album: {
       images: [],
@@ -82,8 +82,19 @@ class Album extends Component {
     );
   }
   componentDidMount() {
-    this.apiAlbum();
+    this.getAlbum();
   }
+  getAlbum = () => {
+    const searchs = localStorage.getItem("searchs")
+      ? JSON.parse(localStorage.getItem("searchs"))
+      : [];
+    const item = searchs.find((i) => i.id === this.props.match.params.id);
+    if (_.isArray(searchs) && !!item) {
+      this.setState({ album: item });
+    } else {
+      this.apiAlbum();
+    }
+  };
   apiAlbum = async () => {
     try {
       this.setState({ loading: true });
@@ -116,7 +127,7 @@ class Album extends Component {
   };
   saveSearch = (data) => {
     const searchs = localStorage.getItem("searchs")
-      ? JSON.parse(localStorage.getItem("searchs")) || []
+      ? JSON.parse(localStorage.getItem("searchs"))
       : [];
     let newSearch;
     const newSearchData = {
