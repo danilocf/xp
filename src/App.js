@@ -57,7 +57,15 @@ class App extends Component {
       </Router>
     );
   }
+  componentDidMount() {
+    this.getToken();
+  }
+  getToken = () => {
+    const token = localStorage.getItem("token");
+    if (token) this.setState({ token });
+  };
   onSetToken = ({ token, expired, invalid }) => {
+    localStorage.setItem("token", expired || invalid ? "" : token);
     return this.setState({
       token,
       tokenExpired: expired || false,

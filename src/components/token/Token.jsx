@@ -23,7 +23,7 @@ class Token extends Component {
             type="text"
             name="token"
             id="token"
-            placeholder="Digite o seu TOKEN aqui"
+            placeholder="Digite o seu Token aqui"
             className="search style-bold-48-left-grey"
             maxLength="200"
           />

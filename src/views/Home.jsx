@@ -25,7 +25,7 @@ class Home extends Component {
           id="search"
           placeholder="Comece a escrever..."
           className="search style-bold-48-left-grey"
-          maxLength="200"
+          maxLength="50"
         />
         {this.state.search.length ? (
           <React.Fragment>
