@@ -11,6 +11,10 @@
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 .style-bold-48-left-grey {
   font-weight: 700;
   font-size: 48px;

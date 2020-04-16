@@ -1,6 +1,7 @@
 import _ from "lodash";
 import moment from "moment";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import ServiceApi from "../services/ServiceApi";
 
 class Album extends Component {
@@ -24,8 +25,9 @@ class Album extends Component {
   render() {
     return (
       <React.Fragment>
-        {/* TODO: */}
-        {/* <a href="#">Voltar</a> */}
+        <Link to="/" className="goback style-regular-18-left-white">
+          {"<"} Voltar
+        </Link>
         {this.state.loading && (
           <p className="style-regular-18-left-grey">Carregando...</p>
         )}

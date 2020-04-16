@@ -29,27 +29,33 @@
   outline: none;
 }
 
+.App .goback {
+  display: block;
+  margin-bottom: 20px;
+}
+
 .App .albuns {
-  margin-bottom: 70px;
+  margin-bottom: 40px;
 }
 
 .App .albuns__text {
-  margin: 0 8px 26px;
+  margin: 0 0 20px;
 }
 
 .App .albuns__container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .App .album {
   max-width: 170px;
-  margin: 20px auto;
-  text-decoration: none;
+  margin: 20px 0;
 }
 
 .App .album.large {
   max-width: 300px;
+  margin-right: 40px;
 }
 
 .App .album__img {
