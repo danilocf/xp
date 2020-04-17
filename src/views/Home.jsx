@@ -169,9 +169,7 @@ class Home extends Component {
   }
 
   getSearchs = () => {
-    const searchs =
-      localStorage.getItem("searchs") &&
-      JSON.parse(localStorage.getItem("searchs"));
+    const searchs = JSON.parse(localStorage.getItem("searchs")) || [];
     if (_.isArray(searchs)) {
       this.setState({ searchs });
     }

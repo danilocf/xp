@@ -34,7 +34,7 @@ class App extends Component {
               </Link>
             </div>
             <div className="col fill">
-              {this.state.track.preview_url.length && (
+              {!!this.state.track.preview_url.length && (
                 <Player track={this.state.track} />
               )}
             </div>
@@ -94,7 +94,7 @@ class App extends Component {
   };
 
   getTrack = () => {
-    const track = JSON.parse(localStorage.getItem("track"));
+    const track = JSON.parse(localStorage.getItem("track")) || "";
     if (track) this.setState({ track });
   };
 

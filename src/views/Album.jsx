@@ -97,7 +97,7 @@ class Album extends Component {
   }
 
   getAlbum = () => {
-    const searchs = JSON.parse(localStorage.getItem("searchs"));
+    const searchs = JSON.parse(localStorage.getItem("searchs")) || [];
     const item = searchs.find((i) => i.id === this.props.match.params.id);
     if (_.isArray(searchs) && !!item) {
       this.setState({ album: item });
@@ -138,7 +138,7 @@ class Album extends Component {
   };
 
   saveSearch = (data) => {
-    const searchs = JSON.parse(localStorage.getItem("searchs"));
+    const searchs = JSON.parse(localStorage.getItem("searchs")) || [];
     let newSearch;
     const newSearchData = {
       id: data.id,
