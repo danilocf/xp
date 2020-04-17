@@ -31,7 +31,7 @@
 }
 
 .App .goback {
-  display: block;
+  display: inline-block;
   margin-bottom: 20px;
 }
 
@@ -51,7 +51,7 @@
 .App .albums__container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .App .album {
