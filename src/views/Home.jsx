@@ -13,6 +13,7 @@ class Home extends Component {
     albums: [],
     tracks: [],
   };
+
   render() {
     return (
       <React.Fragment>
@@ -32,6 +33,7 @@ class Home extends Component {
           className="search style-bold-48-left-grey animated fadeIn"
           maxLength="50"
         />
+
         {this.state.search.length ? (
           <React.Fragment>
             <div className="albums">
@@ -148,6 +150,7 @@ class Home extends Component {
             </div>
           </div>
         )}
+
         {!this.state.loading &&
           (!!this.state.albums.length || !!this.state.tracks.length) && (
             <div
@@ -160,9 +163,11 @@ class Home extends Component {
       </React.Fragment>
     );
   }
+
   componentDidMount() {
     this.getSearchs();
   }
+
   getSearchs = () => {
     const searchs =
       localStorage.getItem("searchs") &&
@@ -171,11 +176,14 @@ class Home extends Component {
       this.setState({ searchs });
     }
   };
+
   onChange = (e) => {
     this.setState({ search: e.target.value });
     this.debounceApiSearch();
   };
+
   debounceApiSearch = _.debounce(() => this.apiSearch(), 500);
+
   apiSearch = async () => {
     if (!this.state.search) {
       this.reset();
@@ -222,6 +230,7 @@ class Home extends Component {
       }, 300);
     }
   };
+
   reset = () => {
     this.setState({
       offset: 0,

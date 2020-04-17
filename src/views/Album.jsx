@@ -9,7 +9,7 @@ class Album extends Component {
     loading: false,
     error: false,
     album: {
-      images: [],
+      images: [{ url: "" }],
       name: "",
       artists: [],
       tracks: {
@@ -22,66 +22,64 @@ class Album extends Component {
       },
     },
   };
+
   render() {
     return (
       <React.Fragment>
         <Link to="/" className="goback style-regular-18-left-white">
           {"<"} Voltar
         </Link>
+
         {this.state.loading && (
           <p className="style-regular-18-left-grey">Carregando...</p>
         )}
+
         {this.state.error && (
           <p className="style-regular-18-left-grey">
             Nenhum álbum encontrado com id "{this.props.match.params.id}"
           </p>
         )}
+
         {!this.state.loading && !this.state.error && (
           <div className="row">
             <div className="col">
               <div className="album large animated zoomIn faster">
-                {this.state.album.images &&
-                this.state.album.images[0] &&
-                this.state.album.images[0].url &&
-                this.state.album.images[0].url.length ? (
+                {this.state.album.images[0].url.length ? (
                   <img
                     src={this.state.album.images[0].url}
-                    alt=""
                     className="album__img"
                   />
                 ) : (
-                  <img alt="" className="album__img" />
+                  <img className="album__img" />
                 )}
                 <p className="album__title style-regular-18-center-light">
-                  {this.state.album.name || "Nome do álbum"}
+                  {this.state.album.name}
                 </p>
                 <p className="album__artist style-regular-14-center-grey">
-                  {this.state.album.artists && this.state.album.artists.length
-                    ? this.state.album.artists.map((i) => i.name).join(", ")
-                    : "Nome do artista"}
+                  {this.state.album.artists.map((i) => i.name).join(", ")}
                 </p>
               </div>
             </div>
+
             <div className="col fill">
               <div className="list">
-                {this.state.album.tracks &&
-                  this.state.album.tracks.items.map((item, index) => (
-                    <div
-                      className="list__item animated fadeIn slow"
-                      key={index}
-                      onClick={() => this.props.setTrack(item)}
-                    >
-                      <div className="list__number style-regular-18-left-grey">
-                        {index + 1}.
-                      </div>
-                      <div className="list__title style-regular-18-left-light">
-                        {item.name}
-                      </div>
-                      <div className="list__duration style-regular-18-right-grey">
-                        {moment(item.duration_ms).format("mm:ss")}
-                      </div>
+                {this.state.album.tracks.items.map((item, index) => (
+                  <div
+                    className="list__item animated fadeIn slow"
+                    key={index}
+                    onClick={() => this.props.setTrack(item)}
+                  >
+                    <div className="list__number style-regular-18-left-grey">
+                      {index + 1}.
                     </div>
-                  ))}
+                    <div className="list__title style-regular-18-left-light">
+                      {item.name}
+                    </div>
+                    <div className="list__duration style-regular-18-right-grey">
+                      {moment(item.duration_ms).format("mm:ss")}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -89,13 +87,13 @@ class Album extends Component {
       </React.Fragment>
     );
   }
+
   componentDidMount() {
     this.getAlbum();
   }
+
   getAlbum = () => {
-    const searchs = localStorage.getItem("searchs")
-      ? JSON.parse(localStorage.getItem("searchs"))
-      : [];
+    const searchs = JSON.parse(localStorage.getItem("searchs"));
     const item = searchs.find((i) => i.id === this.props.match.params.id);
     if (_.isArray(searchs) && !!item) {
       this.setState({ album: item });
@@ -103,6 +101,7 @@ class Album extends Component {
       this.apiAlbum();
     }
   };
+
   apiAlbum = async () => {
     try {
       this.setState({ loading: true });
@@ -133,10 +132,9 @@ class Album extends Component {
       }
     }
   };
+
   saveSearch = (data) => {
-    const searchs = localStorage.getItem("searchs")
-      ? JSON.parse(localStorage.getItem("searchs"))
-      : [];
+    const searchs = JSON.parse(localStorage.getItem("searchs"));
     let newSearch;
     const newSearchData = {
       id: data.id,

@@ -36,10 +36,9 @@ class App extends Component {
                 </Link>
               </div>
               <div className="col fill">
-                {this.state.track.preview_url &&
-                  this.state.track.preview_url.length && (
-                    <Player track={this.state.track} />
-                  )}
+                {this.state.track.preview_url.length && (
+                  <Player track={this.state.track} />
+                )}
               </div>
             </div>
 
@@ -85,18 +84,17 @@ class App extends Component {
     const token = localStorage.getItem("token");
     if (token) this.setState({ token });
   };
-  onSetToken = ({ token, expired, invalid }) => {
+  onSetToken = ({ token, expired = false, invalid = false }) => {
     localStorage.setItem("token", expired || invalid ? "" : token);
     return this.setState({
       token,
-      tokenExpired: expired || false,
-      tokenInvalid: invalid || false,
+      tokenExpired: expired,
+      tokenInvalid: invalid,
     });
   };
   getTrack = () => {
-    // FIXME:
-    const track = localStorage.getItem("track");
-    if (track) this.setState({ track: JSON.parse(track) });
+    const track = JSON.parse(localStorage.getItem("track"));
+    if (track) this.setState({ track });
   };
   onSetTrack = (track) => {
     localStorage.setItem("track", JSON.stringify(track));
