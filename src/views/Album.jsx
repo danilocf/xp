@@ -36,54 +36,56 @@ class Album extends Component {
             Nenhum álbum encontrado com id "{this.props.match.params.id}"
           </p>
         )}
-        <div className="row">
-          <div className="col">
-            <div className="album large animated zoomIn faster">
-              {this.state.album.images &&
-              this.state.album.images[0] &&
-              this.state.album.images[0].url &&
-              this.state.album.images[0].url.length ? (
-                <img
-                  src={this.state.album.images[0].url}
-                  alt=""
-                  className="album__img"
-                />
-              ) : (
-                <img alt="" className="album__img" />
-              )}
-              <p className="album__title style-regular-18-center-light">
-                {this.state.album.name || "Nome do álbum"}
-              </p>
-              <p className="album__artist style-regular-14-center-grey">
-                {this.state.album.artists && this.state.album.artists.length
-                  ? this.state.album.artists.map((i) => i.name).join(", ")
-                  : "Nome do artista"}
-              </p>
+        {!this.state.loading && !this.state.error && (
+          <div className="row">
+            <div className="col">
+              <div className="album large animated zoomIn faster">
+                {this.state.album.images &&
+                this.state.album.images[0] &&
+                this.state.album.images[0].url &&
+                this.state.album.images[0].url.length ? (
+                  <img
+                    src={this.state.album.images[0].url}
+                    alt=""
+                    className="album__img"
+                  />
+                ) : (
+                  <img alt="" className="album__img" />
+                )}
+                <p className="album__title style-regular-18-center-light">
+                  {this.state.album.name || "Nome do álbum"}
+                </p>
+                <p className="album__artist style-regular-14-center-grey">
+                  {this.state.album.artists && this.state.album.artists.length
+                    ? this.state.album.artists.map((i) => i.name).join(", ")
+                    : "Nome do artista"}
+                </p>
+              </div>
+            </div>
+            <div className="col fill">
+              <div className="list">
+                {this.state.album.tracks &&
+                  this.state.album.tracks.items.map((item, index) => (
+                    <div
+                      className="list__item animated fadeIn slow"
+                      key={index}
+                      onClick={() => this.props.setTrack(item)}
+                    >
+                      <div className="list__number style-regular-18-left-grey">
+                        {index + 1}.
+                      </div>
+                      <div className="list__title style-regular-18-left-light">
+                        {item.name}
+                      </div>
+                      <div className="list__duration style-regular-18-right-grey">
+                        {moment(item.duration_ms).format("mm:ss")}
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
-          <div className="col fill">
-            <div className="list">
-              {this.state.album.tracks &&
-                this.state.album.tracks.items.map((item, index) => (
-                  <div
-                    className="list__item animated fadeIn slow"
-                    key={index}
-                    onClick={() => this.props.setTrack(item)}
-                  >
-                    <div className="list__number style-regular-18-left-grey">
-                      {index + 1}.
-                    </div>
-                    <div className="list__title style-regular-18-left-light">
-                      {item.name}
-                    </div>
-                    <div className="list__duration style-regular-18-right-grey">
-                      {moment(item.duration_ms).format("mm:ss")}
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
+        )}
       </React.Fragment>
     );
   }

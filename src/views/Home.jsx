@@ -18,7 +18,7 @@ class Home extends Component {
       <React.Fragment>
         <label
           htmlFor="search"
-          className="style-regular-16-left-light animated fadeIn delay-1s"
+          className="style-regular-16-left-light animated fadeIn slow"
         >
           Busque por artistas, álbuns ou músicas
         </label>
@@ -29,7 +29,7 @@ class Home extends Component {
           name="search"
           id="search"
           placeholder="Comece a escrever..."
-          className="search style-bold-48-left-grey animated fadeIn slow"
+          className="search style-bold-48-left-grey animated fadeIn"
           maxLength="50"
         />
         {this.state.search.length ? (
@@ -78,7 +78,11 @@ class Home extends Component {
                   <p className="style-regular-18-left-grey">Carregando...</p>
                 ) : this.state.tracks.length ? (
                   this.state.tracks.map((item, index) => (
-                    <div className="album animated zoomIn fast" key={index}>
+                    <Link
+                      to={`/album/${item.album.id}`}
+                      className="album animated zoomIn fast"
+                      key={index}
+                    >
                       <img
                         src={item.album.images[1].url}
                         alt=""
@@ -90,7 +94,7 @@ class Home extends Component {
                       <p className="album__artist style-regular-14-center-grey">
                         {item.artists.map((i) => i.name).join(", ")}
                       </p>
-                    </div>
+                    </Link>
                   ))
                 ) : (
                   <p className="style-regular-18-left-grey">
@@ -101,7 +105,7 @@ class Home extends Component {
             </div>
           </React.Fragment>
         ) : (
-          <div className="albums animated fadeIn delay-2s">
+          <div className="albums animated fadeIn">
             <p className="albums__text style-regular-24-left-light">
               Álbuns buscados recentemente
             </p>

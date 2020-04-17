@@ -91,3 +91,10 @@ a {
   text-align: center;
   color: var(--color-light);
 }
+
+.style-regular-12-left-light {
+  font-weight: 400;
+  font-size: 12px;
+  text-align: left;
+  color: var(--color-light);
+}
