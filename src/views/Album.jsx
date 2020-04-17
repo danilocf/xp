@@ -47,10 +47,11 @@ class Album extends Component {
                 {this.state.album.images[0].url.length ? (
                   <img
                     src={this.state.album.images[0].url}
+                    alt="Imagem do Álbum"
                     className="album__img"
                   />
                 ) : (
-                  <img className="album__img" />
+                  <img alt="Imagem do Álbum" className="album__img" />
                 )}
                 <p className="album__title style-regular-18-center-light">
                   {this.state.album.name}
@@ -74,6 +75,9 @@ class Album extends Component {
                     </div>
                     <div className="list__title style-regular-18-left-light">
                       {item.name}
+                      <small className="list__span style-regular-12-left-light">
+                        Clique para tocar o preview
+                      </small>
                     </div>
                     <div className="list__duration style-regular-18-right-grey">
                       {moment(item.duration_ms).format("mm:ss")}

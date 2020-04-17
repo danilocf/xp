@@ -113,12 +113,26 @@
   cursor: pointer;
 }
 
+.App .album:hover,
+.App .list__item:hover {
+  background-color: #00000020;
+}
+
 .App .list__number {
   width: 40px;
 }
 
 .App .list__title {
   flex-grow: 1;
+}
+
+.App .list__span {
+  display: none;
+  margin-left: 10px;
+}
+
+.App .list__item:hover .list__span {
+  display: initial;
 }
 
 .App .list__duration {

@@ -1,4 +1,4 @@
-.Token {
+.App .Token {
   position: fixed;
   z-index: 999;
 }
@@ -13,13 +13,9 @@
   z-index: -1;
 }
 
-.Token .Token__content {
+.App .Token .Token__content {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.Token .search {
-  margin: 0;
 }

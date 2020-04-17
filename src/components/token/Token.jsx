@@ -1,17 +1,12 @@
 import _ from "lodash";
 import React, { Component } from "react";
-// FIXME:
-// import { connect } from "react-redux";
-// import { bindActionCreators } from "redux";
-// import * as Actions from "../../store/actions";
 import "./Token.css";
 
 class Token extends Component {
   state = {
     token: "",
   };
-  // FIXME:
-  // render({ lala, toggleLala }) {
+
   render() {
     return (
       <div className="Token animated fadeIn fast">
@@ -33,11 +28,12 @@ class Token extends Component {
             className="search style-bold-48-left-grey"
             maxLength="200"
           />
-          {/* FIXME: */}
-          {/* <button onClick={() => toggleLala(lala[0])}>test</button> */}
+
           <a
             href="https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#"
             className="style-regular-12-left-light"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Link - Token Spotify
           </a>
@@ -45,19 +41,16 @@ class Token extends Component {
       </div>
     );
   }
+
   onChange = (e) => {
     this.setState({ token: e.target.value });
     this.debounceSetToken();
   };
+
   debounceSetToken = _.debounce(
     () => this.props.setToken({ token: this.state.token }),
     500
   );
 }
 
-// FIXME:
-// const mapStateToProps = (state) => ({ lala: state.lala });
-// const mapDispatchToProps = (dispatch) => bindActionCreators(Actions, dispatch);
-// export default connect(mapStateToProps, mapDispatchToProps)(Token);
-// export default connect()(Token);
 export default Token;

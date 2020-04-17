@@ -52,7 +52,7 @@ class Home extends Component {
                     >
                       <img
                         src={item.images[1].url}
-                        alt=""
+                        alt="Imagem do Álbum"
                         className="album__img"
                       />
                       <p className="album__title style-regular-14-center-light">
@@ -87,7 +87,7 @@ class Home extends Component {
                     >
                       <img
                         src={item.album.images[1].url}
-                        alt=""
+                        alt="Imagem do Álbum"
                         className="album__img"
                       />
                       <p className="album__title style-regular-14-center-light">
@@ -130,7 +130,7 @@ class Home extends Component {
                     >
                       <img
                         src={item.images[1].url}
-                        alt=""
+                        alt="Imagem do Álbum"
                         className="album__img"
                       />
                       <p className="album__title style-regular-14-center-light">
@@ -199,6 +199,8 @@ class Home extends Component {
             ? this.state.offset + 5
             : 0,
       });
+      const albumItems = (data.albums && data.albums.items) || [];
+      const trackItems = (data.tracks && data.tracks.items) || [];
       this.setState({
         lastSearch: this.state.search,
         offset:
@@ -207,12 +209,12 @@ class Home extends Component {
             : 0,
         albums:
           this.state.search === this.state.lastSearch
-            ? [...this.state.albums, ...data.albums.items]
-            : data.albums.items,
+            ? [...this.state.albums, ...albumItems]
+            : albumItems,
         tracks:
           this.state.search === this.state.lastSearch
-            ? [...this.state.tracks, ...data.tracks.items]
-            : data.tracks.items,
+            ? [...this.state.tracks, ...trackItems]
+            : trackItems,
       });
     } catch (error) {
       this.reset();

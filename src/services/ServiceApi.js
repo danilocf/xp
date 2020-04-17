@@ -10,7 +10,7 @@ const makeRequest = ({
   apiPayload = null,
 }) => {
   const options = {
-    baseURL: process.env.API_BASE_URL || "https://api.spotify.com/v1",
+    baseURL: "https://api.spotify.com/v1",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -18,7 +18,7 @@ const makeRequest = ({
   const NormalApi = Api(options);
   const MockApi = Api(options);
   const mock = new MockAdapter(MockApi, { delayResponse: 1300 });
-  const useMock = process.env.MOCK === "true";
+  const useMock = false;
   const selectedApi = useMock && mockResponse ? MockApi : NormalApi;
   const mockMethods = {
     get: "onGet",
